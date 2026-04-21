@@ -1,0 +1,199 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                   HYDROFLOW - COMPLETE SETUP CHECKLIST                     ║
+║                        For VS Code with Supabase                           ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+PROJECT ID: cuparnvpiaxcuswbstla
+SUPABASE URL: https://cuparnvpiaxcuswbstla.supabase.co
+
+════════════════════════════════════════════════════════════════════════════════
+PHASE 1: SUPABASE SETUP (15 minutes)
+════════════════════════════════════════════════════════════════════════════════
+
+☐ STEP 1: Create Database Tables
+  Location: Supabase Dashboard → SQL Editor
+  Action: Copy-paste and run SQL script from QUICK_START.md
+  Creates: profiles, sensor_readings, activity_logs tables
+  
+☐ STEP 2: Enable Row Level Security (RLS)
+  For each table (profiles, sensor_readings, activity_logs):
+    ☐ Go to Database → Tables → Select table
+    ☐ Click "Auth" tab
+    ☐ Toggle RLS ON
+    ☐ Create 4 policies (SELECT, INSERT, UPDATE, DELETE)
+  
+  Alternative: Use SQL from RLS_POLICIES_COMPLETE.md
+
+════════════════════════════════════════════════════════════════════════════════
+PHASE 2: VS CODE SETUP (10 minutes)
+════════════════════════════════════════════════════════════════════════════════
+
+☐ STEP 3: Create .env.local File
+  Location: Project root (same folder as package.json)
+  Contents:
+    NEXT_PUBLIC_SUPABASE_URL=https://cuparnvpiaxcuswbstla.supabase.co
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=[your key from ALL_CODE_FILES.md]
+    SUPABASE_SERVICE_ROLE_KEY=[your key from ALL_CODE_FILES.md]
+
+☐ STEP 4: Create lib/supabase/client.ts
+  Location: lib/supabase/client.ts
+  Copy code from: ALL_CODE_FILES.md → FILE 2
+  
+☐ STEP 5: Create lib/supabase/server.ts
+  Location: lib/supabase/server.ts
+  Copy code from: ALL_CODE_FILES.md → FILE 3
+
+════════════════════════════════════════════════════════════════════════════════
+PHASE 3: INSTALL & RUN (5 minutes)
+════════════════════════════════════════════════════════════════════════════════
+
+☐ STEP 6: Install Dependencies
+  Command: npm install
+  Wait for completion...
+  
+☐ STEP 7: Start Development Server
+  Command: npm run dev
+  You should see: "Local: http://localhost:3000"
+  
+☐ STEP 8: Test the App
+  Open browser: http://localhost:3000
+  Actions to test:
+    ☐ See homepage with "Sign In" and "Get Started" buttons
+    ☐ Click "Get Started" → Sign up works
+    ☐ After signup → Redirect to dashboard
+    ☐ Can see profile, sensor cards, activity panel
+    ☐ Can log out
+
+════════════════════════════════════════════════════════════════════════════════
+API KEYS REFERENCE
+════════════════════════════════════════════════════════════════════════════════
+
+Key                           | What It Is        | Safe to Share? | Used By
+------------------------------|-------------------|----------------|----------
+NEXT_PUBLIC_SUPABASE_URL      | Project URL       | ✅ YES         | Frontend & Backend
+NEXT_PUBLIC_SUPABASE_ANON_KEY | Login Key         | ✅ YES         | Frontend (Browser)
+SUPABASE_SERVICE_ROLE_KEY     | Secret Admin Key  | ❌ NO          | Backend Only
+
+✅ SAFE TO EXPOSE IN BROWSER: NEXT_PUBLIC_* variables
+❌ KEEP SECRET: Variables without NEXT_PUBLIC_ prefix
+
+════════════════════════════════════════════════════════════════════════════════
+FILE LOCATIONS
+════════════════════════════════════════════════════════════════════════════════
+
+CREATE (3 files):
+  .env.local ............................ Project root
+  lib/supabase/client.ts ................ Supabase client
+  lib/supabase/server.ts ................ Supabase server client
+
+ALREADY EXIST (DO NOT MODIFY):
+  app/page.tsx .......................... Homepage
+  app/layout.tsx ........................ Root layout
+  app/globals.css ....................... Global styles
+  app/dashboard/page.tsx ................ Dashboard page
+  app/auth/login/page.tsx ............... Login page
+  app/auth/sign-up/page.tsx ............. Signup page
+  components/* .......................... All components
+  package.json .......................... Dependencies
+
+════════════════════════════════════════════════════════════════════════════════
+DOCUMENTATION REFERENCE
+════════════════════════════════════════════════════════════════════════════════
+
+READ FIRST:
+  README_VS_CODE_SETUP.md .......... Start here! Overview & guide selection
+
+QUICK SETUP:
+  QUICK_START.md .................. Fast 5-min setup (recommended)
+
+DETAILED GUIDES:
+  VSCODE_SETUP_GUIDE.md ........... Complete step-by-step (15 min)
+  RLS_POLICIES_COMPLETE.md ........ Security policies explained (10 min)
+  ALL_CODE_FILES.md ............... All code files with locations (10 min)
+
+REFERENCE:
+  COMPLETE_CODE_EXPORT.txt ........ All code in one file
+  SETUP_CHECKLIST.txt ............. This file!
+
+════════════════════════════════════════════════════════════════════════════════
+COMMON ISSUES & FIXES
+════════════════════════════════════════════════════════════════════════════════
+
+ISSUE: "Environment variables not set"
+FIX: Create .env.local in project root with correct API keys
+
+ISSUE: "Cannot find module '@supabase/ssr'"
+FIX: Run "npm install" to install all dependencies
+
+ISSUE: "RLS policy denied"
+FIX: Set up RLS policies on Supabase (see RLS_POLICIES_COMPLETE.md)
+
+ISSUE: "Connection refused" or "Cannot GET /"
+FIX: Make sure "npm run dev" is running in terminal
+
+ISSUE: "Port 3000 is already in use"
+FIX: Run "npm run dev -- -p 3001" to use different port
+
+ISSUE: "Cannot read property 'user' of null"
+FIX: User is not authenticated - create account or login first
+
+════════════════════════════════════════════════════════════════════════════════
+VERIFICATION CHECKLIST
+════════════════════════════════════════════════════════════════════════════════
+
+After each phase, verify:
+
+PHASE 1 COMPLETE:
+  ☐ 3 tables exist in Supabase (profiles, sensor_readings, activity_logs)
+  ☐ RLS is enabled on all tables
+  ☐ 4 policies exist on each table
+
+PHASE 2 COMPLETE:
+  ☐ .env.local file exists in project root
+  ☐ lib/supabase/client.ts file exists
+  ☐ lib/supabase/server.ts file exists
+  ☐ All files have correct code copied
+
+PHASE 3 COMPLETE:
+  ☐ "npm install" completed without errors
+  ☐ "npm run dev" shows "Local: http://localhost:3000"
+  ☐ Browser opens http://localhost:3000 successfully
+  ☐ Homepage loads with HydroFlow title
+  ☐ Can click "Get Started" and see signup form
+  ☐ Can create account successfully
+  ☐ Dashboard loads after signup
+  ☐ Can see profile, sensor, and activity sections
+
+════════════════════════════════════════════════════════════════════════════════
+FINAL CHECKLIST
+════════════════════════════════════════════════════════════════════════════════
+
+PROJECT SETUP:
+  ☐ Phase 1: Supabase setup complete
+  ☐ Phase 2: VS Code setup complete
+  ☐ Phase 3: Installation & running complete
+
+TESTING:
+  ☐ App runs at http://localhost:3000
+  ☐ Sign up works
+  ☐ Login works
+  ☐ Dashboard loads
+  ☐ No console errors
+
+READY TO CODE:
+  ☐ All checkboxes above are checked
+  ☐ Ready to customize/deploy
+
+════════════════════════════════════════════════════════════════════════════════
+
+🎉 YOU'RE DONE! Your HydroFlow app is ready to use!
+
+Next steps:
+  1. Keep dev server running with "npm run dev"
+  2. Make code changes in VS Code
+  3. Changes hot-reload automatically
+  4. Deploy when ready!
+
+Questions? Read the guides above for complete details.
+
+════════════════════════════════════════════════════════════════════════════════

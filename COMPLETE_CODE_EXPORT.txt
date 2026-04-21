@@ -1,0 +1,91 @@
+================================================================================
+HYDROFLOW - COMPLETE CODE EXPORT FOR VS CODE
+================================================================================
+
+This file contains ALL the code you need to copy-paste into VS Code.
+Each section has a file path and the complete code.
+
+================================================================================
+FILE 1: .env.local
+================================================================================
+Path: .env.local (in project root)
+
+NEXT_PUBLIC_SUPABASE_URL=https://cuparnvpiaxcuswbstla.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1cGFybnZwaWF4Y3Vzd2JzdGxhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3OTI5MTksImV4cCI6MjA5MjM2ODkxOX0.4BrRAVK2XLprpYm20DBNoys9y4wFD39vP7Ol96n5GNE
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN1cGFybnZwaWF4Y3Vzd2JzdGxhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Njc5MjkxOSwiZXhwIjoyMDkyMzY4OTE5fQ.9pPAo1xgMBIVTdeV2Ixu9n6PhJeU2jccV31r1wySGlI
+
+================================================================================
+FILE 2: lib/supabase/client.ts
+================================================================================
+Path: lib/supabase/client.ts
+
+import { createBrowserClient } from '@supabase/ssr'
+
+export function createClient() {
+  return createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+}
+
+================================================================================
+FILE 3: lib/supabase/server.ts
+================================================================================
+Path: lib/supabase/server.ts
+
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+
+export async function createClient() {
+  const cookieStore = await cookies()
+
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll()
+        },
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            )
+          } catch {
+            // Handle errors silently
+          }
+        },
+      },
+    }
+  )
+}
+
+================================================================================
+IMPORTANT NOTES
+================================================================================
+
+1. ENVIRONMENT VARIABLES:
+   - Copy the .env.local section EXACTLY as shown
+   - DO NOT share these keys with anyone
+   - Keep .env.local in .gitignore
+
+2. API KEYS EXPLAINED:
+   - NEXT_PUBLIC_SUPABASE_URL = Your project URL
+   - NEXT_PUBLIC_SUPABASE_ANON_KEY = For browser/login (safe to expose)
+   - SUPABASE_SERVICE_ROLE_KEY = Secret! Use on server only
+
+3. SUPABASE CLIENT SETUP:
+   - client.ts = For browser/components (use createClient())
+   - server.ts = For backend/API routes (use createClient())
+
+4. TO RUN THE PROJECT:
+   npm install
+   npm run dev
+
+5. THEN GO TO:
+   http://localhost:3000
+
+================================================================================
+END OF CODE EXPORT
+================================================================================
